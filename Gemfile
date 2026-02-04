@@ -54,6 +54,10 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem 'rubocop-rails-omakase', require: false
+
+  # ...略
+  gem 'factory_bot_rails' # 追加
+  gem 'rspec-rails' # 追加
 end
 
 # group :development do
@@ -68,15 +72,9 @@ end
 # end
 group :development do
   # ...略
-  gem "rubocop", require: false # 追加
-  gem "rubocop-performance", require: false # 追加
-  gem "rubocop-rails", require: false # 追加
-  gem "rubocop-rspec" # 追加
+  gem 'rubocop', require: false # 追加
+  gem 'rubocop-performance', require: false # 追加
+  gem 'rubocop-rails', require: false # 追加
+  gem 'rubocop-rspec' # 追加
   gem 'spring-commands-rspec' # 追記
-end
-
-group :development, :test do
-  # ...略
-  gem 'rspec-rails' # 追加
-  gem 'factory_bot_rails' # 追加
 end
