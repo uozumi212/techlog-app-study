@@ -56,13 +56,27 @@ group :development, :test do
   gem 'rubocop-rails-omakase', require: false
 end
 
+# group :development do
+#   # Use console on exceptions pages [https://github.com/rails/web-console]
+#   gem 'web-console'
+# end
+
+# group :test do
+#   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
+#   gem 'capybara'
+#   gem 'selenium-webdriver'
+# end
 group :development do
-  # Use console on exceptions pages [https://github.com/rails/web-console]
-  gem 'web-console'
+  # ...略
+  gem "rubocop", require: false # 追加
+  gem "rubocop-performance", require: false # 追加
+  gem "rubocop-rails", require: false # 追加
+  gem "rubocop-rspec" # 追加
+  gem 'spring-commands-rspec' # 追記
 end
 
-group :test do
-  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem 'capybara'
-  gem 'selenium-webdriver'
+group :development, :test do
+  # ...略
+  gem 'rspec-rails' # 追加
+  gem 'factory_bot_rails' # 追加
 end
