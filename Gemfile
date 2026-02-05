@@ -19,6 +19,8 @@ gem 'tailwindcss-rails'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
 
+gem 'devise'
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
@@ -73,10 +75,9 @@ end
 #   gem 'selenium-webdriver'
 # end
 group :development do
-  # ...略
-  gem 'rubocop', require: false # 追加
-  gem 'rubocop-performance', require: false # 追加
-  gem 'rubocop-rails', require: false # 追加
-  gem 'rubocop-rspec' # 追加
-  gem 'spring-commands-rspec' # 追記
+  gem 'rubocop', require: false 
+  gem 'rubocop-performance', require: false 
+  gem 'rubocop-rails', require: false 
+  gem 'rubocop-rspec' 
+  gem 'spring-commands-rspec' 
 end

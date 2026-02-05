@@ -12,5 +12,4 @@ RSpec.describe 'Home', type: :system do
       expect(page).to have_content('Home#top')
     end
   end
-  # pending "add some scenarios (or delete) #{__FILE__}"
 end
