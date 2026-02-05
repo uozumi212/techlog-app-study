@@ -19,8 +19,6 @@ gem 'tailwindcss-rails'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
 
-gem 'devise'
-
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
@@ -64,16 +62,6 @@ group :development, :test do
   gem 'rspec-rails' # 追加
 end
 
-# group :development do
-#   # Use console on exceptions pages [https://github.com/rails/web-console]
-#   gem 'web-console'
-# end
-
-# group :test do
-#   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-#   gem 'capybara'
-#   gem 'selenium-webdriver'
-# end
 group :development do
   gem 'rubocop', require: false 
   gem 'rubocop-performance', require: false 
@@ -81,3 +69,5 @@ group :development do
   gem 'rubocop-rspec' 
   gem 'spring-commands-rspec' 
 end
+
+gem 'devise'
