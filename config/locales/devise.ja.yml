@@ -54,3 +54,11 @@ ja:
       signed_in: ログインしました。
       user:
         signed_out: ログアウトしました。
+  posts:
+    created: "投稿しました"
+    create_failed: "投稿に失敗しました"
+    updated: "投稿を更新しました"
+    update_failed: "更新に失敗しました"
+    deleted: "投稿が削除されました"
+    not_found: "投稿が見つかりません"
+    not_authorized: "権限がありません"

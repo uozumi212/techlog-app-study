@@ -79,9 +79,9 @@ RSpec.describe 'Posts', type: :request do
       end
 
       it '投稿が作成されない' do
-        expect {
+        expect do
           post '/posts', params: { post: { title: 'テスト', content: 'テスト内容' } }
-        }.not_to change(Post, :count)
+        end.not_to change(Post, :count)
       end
     end
 
@@ -90,9 +90,9 @@ RSpec.describe 'Posts', type: :request do
 
       context '有効なパラメータの場合' do
         it '新しい投稿が作成される' do
-          expect {
+          expect do
             post '/posts', params: { post: { title: 'テスト投稿', content: 'テスト内容です' } }
-          }.to change(Post, :count).by(1)
+          end.to change(Post, :count).by(1)
         end
 
         it '投稿一覧ページにリダイレクトされる' do
@@ -113,9 +113,9 @@ RSpec.describe 'Posts', type: :request do
 
       context '無効なパラメータの場合' do
         it '投稿が作成されない' do
-          expect {
+          expect do
             post '/posts', params: { post: { title: '', content: '' } }
-          }.not_to change(Post, :count)
+          end.not_to change(Post, :count)
         end
 
         it '新規投稿ページが表示される' do
@@ -131,17 +131,17 @@ RSpec.describe 'Posts', type: :request do
 
       context 'タイトルが空の場合' do
         it '投稿が作成されない' do
-          expect {
+          expect do
             post '/posts', params: { post: { title: '', content: 'テスト内容' } }
-          }.not_to change(Post, :count)
+          end.not_to change(Post, :count)
         end
       end
 
       context '本文が空の場合' do
         it '投稿が作成されない' do
-          expect {
+          expect do
             post '/posts', params: { post: { title: 'テスト', content: '' } }
-          }.not_to change(Post, :count)
+          end.not_to change(Post, :count)
         end
       end
     end
@@ -323,9 +323,9 @@ RSpec.describe 'Posts', type: :request do
       end
 
       it '投稿が削除されない' do
-        expect {
+        expect do
           delete "/posts/#{@post.id}"
-        }.not_to change(Post, :count)
+        end.not_to change(Post, :count)
       end
     end
 
@@ -335,9 +335,9 @@ RSpec.describe 'Posts', type: :request do
 
         it '投稿が削除される' do
           post_to_delete = create(:post, user: @user)
-          expect {
+          expect do
             delete "/posts/#{post_to_delete.id}"
-          }.to change(Post, :count).by(-1)
+          end.to change(Post, :count).by(-1)
         end
 
         it '投稿一覧ページにリダイレクトされる' do
@@ -355,9 +355,9 @@ RSpec.describe 'Posts', type: :request do
         before { sign_in @other_user }
 
         it '投稿が削除されない' do
-          expect {
+          expect do
             delete "/posts/#{@post.id}"
-          }.not_to change(Post, :count)
+          end.not_to change(Post, :count)
         end
 
         it '投稿一覧ページにリダイレクトされる' do

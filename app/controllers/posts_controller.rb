@@ -1,8 +1,8 @@
 class PostsController < ApplicationController
-	before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :find_post, only: [:show, :edit, :update, :destroy]
   before_action :authorize_user!, only: [:edit, :update, :destroy]
-  
+
   def index
     @posts = Post.limit(10).order(created_at: :desc)
   end
@@ -15,29 +15,28 @@ class PostsController < ApplicationController
     @post = Post.new
   end
 
+  def edit
+  end
+
   def create
     @post = Post.new(post_params)
     @post.user_id = current_user.id
 
     if @post.save
-      flash[:notice] = '投稿しました'
+      flash[:notice] = t('posts.created')
       redirect_to posts_path
     else
-      flash[:alert] = '投稿に失敗しました'
+      flash[:alert] = t('posts.create_failed')
       render :new
     end
   end
-  
-  def edit
-  
-  end
-  
+
   def update
-  	if @post.update(post_params)
-   		flash[:notice] = '投稿を更新しました'
+    if @post.update(post_params)
+      flash[:notice] = t('posts.updated')
       redirect_to @post
     else
-    	flash[:alert] = '更新に失敗しました'
+      flash[:alert] = t('posts.update_failed')
       render :edit
     end
   end
@@ -47,7 +46,7 @@ class PostsController < ApplicationController
 
     if post.user == current_user
       post.destroy
-      flash[:notice] = '投稿が削除されました'
+      flash[:notice] = t('posts.deleted')
     end
 
     redirect_to posts_path
@@ -58,13 +57,13 @@ class PostsController < ApplicationController
   def post_params
     params.expect(post: [:title, :content])
   end
-  
+
   def find_post
-  	@post = Post.find_by(id: params[:id])
-    redirect_to posts_path, alert: "投稿が見つかりません" unless @post
+    @post = Post.find_by(id: params[:id])
+    redirect_to posts_path, alert: t('posts.not_found') unless @post
   end
-  
+
   def authorize_user!
-  	redirect_to posts_path, alert: '権限がありません' unless @post.user == current_user
+    redirect_to posts_path, alert: t('posts.not_authorized') unless @post.user == current_user
   end
 end
