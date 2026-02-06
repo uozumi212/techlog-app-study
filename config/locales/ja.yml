@@ -1,0 +1,15 @@
+ja:
+  activerecord:
+    errors:
+      messages:
+        record_invalid: 'バリデーションに失敗しました: %{errors}'
+        taken: 'は既に使用されています。'
+        blank: 'が入力されていません。'
+        too_long: 'は%{count}文字以下に設定して下さい。'
+        too_short: 'は%{count}文字以上に設定して下さい。'
+        wrong_length: 'は%{count}文字に設定して下さい。'
+        confirmation: 'が内容と一致しません。'
+      full_messages:
+        format: '%{attribute}%{message}'
+  errors:
+    format: '%{attribute}%{message}'
