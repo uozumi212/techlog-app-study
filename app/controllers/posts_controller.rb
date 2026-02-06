@@ -2,6 +2,7 @@ class PostsController < ApplicationController
 	before_action :authenticate_user!, only: [:new, :create]
 	
   def index
+  	@posts = Post.all
   end
 
   def new
@@ -22,6 +23,7 @@ class PostsController < ApplicationController
   end
 
   def show
+  	@post = Post.find_by(id: params[:id])
   end
 
   def destory
