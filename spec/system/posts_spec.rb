@@ -87,4 +87,40 @@
           end
         end
       end
+      describe 'ログ削除機能の検証' do
+        let!(:post) { create(:post, user: user) }
+
+        context '投稿したユーザーでログインしている場合' do
+          before do
+            sign_in user
+            visit post_path(post)
+          end
+
+          it '削除ボタンを表示する' do
+            expect(page).to have_button('削除')
+          end
+
+          it '削除ボタンをクリックすると削除できる' do
+            expect {
+              click_button '削除'
+            }.to change(Post, :count).by(-1)
+            expect(current_path).to eq('/posts')
+            expect(page).to have_content('投稿が削除されました')
+            expect(page).not_to have_content(post.title)
+          end
+        end
+
+        context '投稿したユーザーでログインしていない場合' do
+          let!(:other_user) { create(:user) }
+
+          before do
+            sign_in other_user
+            visit post_path(post)
+          end
+
+          it '削除ボタンを表示しない' do
+            expect(page).not_to have_button('削除')
+          end
+        end
+      end
     end
