@@ -1,91 +1,91 @@
-    require 'rails_helper'
-     
-    describe User do
-      let(:nickname) { 'テスト太郎' }
-      let(:email) { 'test@example.com' }
-      let(:user) { User.new(nickname: nickname, email: email, password: password, password_confirmation: password) } # 変数に格納
-     
-      describe '.first' do
-        before do
-	        @user = create(:user, nickname: nickname, email: email) # 修正
-	        @post = create(:post, title: 'タイトル', content: '本文', user_id: @user.id) # 修正
-	      end
-     
-        subject { described_class.first }
-     
-        it '事前に作成した通りのUserを返す' do
-          expect(subject.nickname).to eq('テスト太郎')
-          expect(subject.email).to eq('test@example.com')
-        end
-        
-        it '紐づくPostの情報を取得できる' do
-        	expect(subject.posts.size).to eq(1)
-        	expect(subject.posts.first.title).to eq('タイトル')
-        	expect(subject.posts.first.content).to eq('本文')
-        	expect(subject.posts.first.user_id).to eq(@user.id)
-        end
-      end
-     
-      describe 'validation' do
-        let(:password) { '12345678' }
-     
-        describe 'nickname属性' do
-          describe '文字数制限の検証' do
-            context 'nicknameが20文字以下の場合' do
-              let(:nickname) { 'あいうえおかきくけこさしすせそたちつてと' } # 20文字
-     
-              it 'User オブジェクトは有効である' do
-              	user.valid?
-               	puts user.errors.full_messages
-                expect(user.valid?).to be(true)
-              end
-            end
-     
-            context 'nicknameが20文字を超える場合' do
-              let(:nickname) { 'あいうえおかきくけこさしすせそたちつてとな' } # 21文字
-     
-              it 'User オブジェクトは無効である' do
-                user.valid?
-     
-                expect(user.valid?).to be(false)
-                expect(user.errors[:nickname]).to include('は20文字以下に設定して下さい。')
-              end
-            end
+require 'rails_helper'
+
+describe User do
+  let(:nickname) { 'テスト太郎' }
+  let(:email) { 'test@example.com' }
+  let(:user) { User.new(nickname: nickname, email: email, password: password, password_confirmation: password) } # 変数に格納
+
+  describe '.first' do
+    before do
+      @user = create(:user, nickname: nickname, email: email) # 修正
+      @post = create(:post, title: 'タイトル', content: '本文', user_id: @user.id) # 修正
+    end
+
+    subject { described_class.first }
+
+    it '事前に作成した通りのUserを返す' do
+      expect(subject.nickname).to eq('テスト太郎')
+      expect(subject.email).to eq('test@example.com')
+    end
+
+    it '紐づくPostの情報を取得できる' do
+      expect(subject.posts.size).to eq(1)
+      expect(subject.posts.first.title).to eq('タイトル')
+      expect(subject.posts.first.content).to eq('本文')
+      expect(subject.posts.first.user_id).to eq(@user.id)
+    end
+  end
+
+  describe 'validation' do
+    let(:password) { '12345678' }
+
+    describe 'nickname属性' do
+      describe '文字数制限の検証' do
+        context 'nicknameが20文字以下の場合' do
+          let(:nickname) { 'あいうえおかきくけこさしすせそたちつてと' } # 20文字
+
+          it 'User オブジェクトは有効である' do
+            user.valid?
+            puts user.errors.full_messages
+            expect(user.valid?).to be(true)
           end
-     
-          describe '存在性の検証' do
-            context 'nicknameが空欄の場合' do
-              let(:nickname) { '' }
-     
-              it 'User オブジェクトは無効である' do
-                expect(user.valid?).to be(false)
-                expect(user.errors[:nickname]).to include("が入力されていません。")
-              end
-            end
+        end
+
+        context 'nicknameが20文字を超える場合' do
+          let(:nickname) { 'あいうえおかきくけこさしすせそたちつてとな' } # 21文字
+
+          it 'User オブジェクトは無効である' do
+            user.valid?
+
+            expect(user.valid?).to be(false)
+            expect(user.errors[:nickname]).to include('は20文字以下に設定して下さい。')
           end
         end
       end
-      describe 'ユーザーページの検証' do
-      	before do
-       		@user = create(:user)
-          @post = create(:post, title: 'テスト投稿', content: 'ユーザーページ表示テスト', user: @user)
-          
-          visit "/users/#{@user.id}"
-       	end
-       
-	       it 'ユーザー情報が表示される' do
-	       		expect(page).to have_content(@user.nickname)
-	         	expect(page).to have_content("投稿数: 1件")
-	       end
-       
-	       it '投稿一覧が表示される' do
-	       		expect(page).to have_content('テスト投稿')
-	          expect(page).to have_content('ユーザーページ表示テスト')
-	       end
-       
-	       it '投稿の詳細ページへのリンクが機能する' do
-	       		click_link 'テスト投稿'
-	          expect(current_path).to eq("/posts/#{@post.id}")
-	       end
+
+      describe '存在性の検証' do
+        context 'nicknameが空欄の場合' do
+          let(:nickname) { '' }
+
+          it 'User オブジェクトは無効である' do
+            expect(user.valid?).to be(false)
+            expect(user.errors[:nickname]).to include('が入力されていません。')
+          end
+        end
       end
     end
+  end
+  describe 'ユーザーページの検証' do
+    before do
+      @user = create(:user)
+      @post = create(:post, title: 'テスト投稿', content: 'ユーザーページ表示テスト', user: @user)
+
+      visit "/users/#{@user.id}"
+    end
+
+    it 'ユーザー情報が表示される' do
+      expect(page).to have_content(@user.nickname)
+      expect(page).to have_content('投稿数: 1件')
+    end
+
+    it '投稿一覧が表示される' do
+      expect(page).to have_content('テスト投稿')
+      expect(page).to have_content('ユーザーページ表示テスト')
+    end
+
+    it '投稿の詳細ページへのリンクが機能する' do
+      click_link 'テスト投稿'
+      expect(current_path).to eq("/posts/#{@post.id}")
+    end
+  end
+end

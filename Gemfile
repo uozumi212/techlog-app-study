@@ -51,26 +51,26 @@ group :development, :test do
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem 'brakeman', require: false
-  
+
   gem 'capybara'
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem 'rubocop-rails-omakase', require: false
 
   gem 'sqlite3', '>= 2.1'
-  
+
   # ...略
+  gem 'database_cleaner-active_record'
   gem 'factory_bot_rails' # 追加
   gem 'rspec-rails' # 追加
-  gem 'database_cleaner-active_record'
 end
 
 group :development do
-  gem 'rubocop', require: false 
-  gem 'rubocop-performance', require: false 
-  gem 'rubocop-rails', require: false 
-  gem 'rubocop-rspec' 
-  gem 'spring-commands-rspec' 
+  gem 'rubocop', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec'
+  gem 'spring-commands-rspec'
 end
 
 gem 'devise'
