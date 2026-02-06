@@ -1,0 +1,47 @@
+    <%= form_with model: @post, class: "space-y-6 w-3/4 max-w-lg bg-white p-6 rounded-lg shadow" do |f| %>
+      <label class="block text-xl font-bold text-gray-700">学習ログ投稿</label>
+      <% if @post.errors.any? %>
+        <div id="error_explanation" class="rounded-md bg-red-50 p-4">
+          <h2 class="text-sm font-medium text-red-800">
+            <%= pluralize(@post.errors.count, "error") %>件のエラーがあります:
+          </h2>
+          <ul class="mt-2 list-inside list-disc space-y-1 text-sm text-red-700">
+            <% @post.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      
+      <div class="mt-1">
+        <label class="text-gray-700 text-lg">
+          タイトル
+        </label>
+        <%= f.text_field :title, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 py-1 px-2 block w-full sm:text-sm placeholder-gray-400 border border-gray-300 rounded-md", placeholder: "Railsチュートリアル1章を完了" %>
+      </div>
+     
+      <div class="mt-1">
+        <label class="text-gray-700 text-lg">
+          本文
+        </label>
+        <%= f.text_area :content, rows: "5", class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 py-1 px-2 block w-full sm:text-sm placeholder-gray-400 border border-gray-300 rounded-md", placeholder: "環境構築を無事に終えることができた！" %>
+      </div>
+     
+      <p class="mt-2 text-sm text-gray-500">
+	      <% if @post.new_record? %>
+	        学習したこと、開発したことを記録しましょう。
+	      <% else %>
+	        学習したこと、開発したことを更新しましょう。
+	      <% end %>
+      </p>
+     
+      <div class="px-4 py-3 text-right sm:px-6">
+	      <% if @post.new_record? %>
+	        <%= link_to "キャンセル", posts_path, class: "inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+	        <%= f.submit "ログを記録", class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:cursor-pointer" %>
+	      <% else %>
+	        <%= link_to "キャンセル", @post, class: "inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+	        <%= f.submit "更新する", class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:cursor-pointer" %>
+	      <% end %>
+      </div>
+    <% end %>
