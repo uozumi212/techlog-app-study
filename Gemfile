@@ -60,6 +60,7 @@ group :development, :test do
   # ...略
   gem 'factory_bot_rails' # 追加
   gem 'rspec-rails' # 追加
+  gem 'database_cleaner-active_record'
 end
 
 group :development do
