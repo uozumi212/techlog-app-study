@@ -5,6 +5,22 @@
       	@user = create(:user)
         @post = create(:post)
       end
+      
+      describe 'GET /posts' do
+      	context 'ログインしていない場合' do
+       		it 'HTTPステータス200を返す' do
+         		get '/posts'
+           	expect(response).to have_http_status '200'
+          end
+        end
+       
+       	context 'ログインしている場合' do
+        	it 'HTTPステータス200を返す' do
+         		sign_in @user
+           	get '/posts'
+            expect(response).to have_http_status '200'
+          end
+        end
      
       describe 'GET /posts/new' do
         context 'ログインしていない場合' do
@@ -31,7 +47,6 @@
             expect(response).not_to redirect_to '/users/sign_in'
           end
         end
-      end
       
       describe 'GET /posts/:id' do
       	context 'ログインしていない場合' do
@@ -49,3 +64,5 @@
         end
       end
     end
+  end
+end
