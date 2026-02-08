@@ -373,3 +373,61 @@ RSpec.describe 'Posts', type: :request do
     end
   end
 end
+
+describe 'GET /posts with search' do
+  let(:user1) { create(:user, nickname: 'テスト太郎') }
+  let(:user2) { create(:user, nickname: 'テスト花子') }
+  let!(:post1) { create(:post, title: 'Rails入門', content: 'Railsの基礎を学びました', user: user1) }
+  let!(:post2) { create(:post, title: 'Ruby基礎', content: 'Rubyの文法を勉強中', user: user1) }
+  let!(:post3) { create(:post, title: 'Rails中級', content: 'Railsのアソシエーションを学習', user: user2) }
+
+  context 'キーワード検索の場合' do
+    it 'タイトルに一致する投稿が表示される' do
+      get '/posts', params: { keyword: 'Rails' }
+      expect(response.body).to include('Rails入門')
+      expect(response.body).to include('Rails中級')
+      expect(response.body).not_to include('Ruby基礎')
+    end
+
+    it '内容に一致する投稿が表示される' do
+      get '/posts', params: { keyword: 'アソシエーション' }
+      expect(response.body).to include('Rails中級')
+    end
+
+    it '一致する投稿がない場合はメッセージが表示される' do
+      get '/posts', params: { keyword: '存在しないキーワード' }
+      expect(response.body).to include('該当する投稿はありません')
+    end
+  end
+
+  context 'ユーザーフィルタの場合' do
+    it '指定したユーザーの投稿のみ表示される' do
+      get '/posts', params: { user_id: user1.id }
+      expect(response.body).to include('Rails入門')
+      expect(response.body).to include('Ruby基礎')
+      expect(response.body).not_to include('Rails中級')
+    end
+  end
+
+  context 'ソート機能の場合' do
+    it 'デフォルトは最新順' do
+      get '/posts'
+      # 投稿順序を確認（post3が最後に作成されているはず）
+      expect(response.body.index('Rails中級')).to be < response.body.index('Rails入門')
+    end
+
+    it '古い順でソートできる' do
+      get '/posts', params: { sort: 'oldest' }
+      # post1が最初に表示されることを確認
+      expect(response.body.index('Rails入門')).to be < response.body.index('Rails中級')
+    end
+  end
+
+  context '複合検索の場合' do
+    it 'キーワードとユーザーで絞り込める' do
+      get '/posts', params: { keyword: 'Rails', user_id: user1.id }
+      expect(response.body).to include('Rails入門')
+      expect(response.body).not_to include('Rails中級')
+    end
+  end
+end

@@ -54,6 +54,15 @@ ja:
       signed_in: ログインしました。
       user:
         signed_out: ログアウトしました。
+  time:
+    formats:
+      short: "%Y年%m月%d日 %H:%M"
+      long: "%Y年%m月%d日(%a) %H:%M:%S"
+
+  date:
+    formats:
+      short: "%Y年%m月%d日"
+      long: "%Y年%m月%d日(%a)"
   posts:
     created: "投稿しました"
     create_failed: "投稿に失敗しました"

@@ -4,7 +4,15 @@ class PostsController < ApplicationController
   before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   def index
-    @posts = Post.limit(10).order(created_at: :desc)
+  	# 検索パラメータを取得
+    @keyword = params[:keyword]
+    @user_id = params[:user_id]
+    @sort = params[:sort]
+    
+    # ユーザー一覧を取得（フィルタ用）
+    @users = User.all
+  
+    @posts = Post.search(keyword: @keyword, user_id: @user_id, sort: @sort).limit(10)
   end
 
   def show

@@ -1,22 +1,100 @@
-    <div class="space-y-6 w-3/4 max-w-lg">
-      <label class="block text-xl font-bold text-gray-700">学習ログ一覧</label>
-     
-      <div class="items-center justify-center">
+<div class="space-y-6 w-full max-w-2xl">
+  <div class="w-full">
+    <label class="block text-xl font-bold text-gray-700 mb-6">学習ログ一覧</label>
+
+    <!-- 検索フォーム -->
+    <div class="bg-white p-6 shadow rounded mb-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">検索・フィルタ</h3>
+
+      <%= form_with url: posts_path, method: :get, local: true, class: "space-y-4" do |f| %>
+        <!-- キーワード検索 -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            キーワード検索
+          </label>
+          <%= f.text_field :keyword, 
+              placeholder: 'タイトルから検索...', 
+              value: @keyword,
+              class: "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" %>
+        </div>
+
+        <!-- ユーザーフィルタ -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            ユーザー
+          </label>
+          <%= f.select :user_id, 
+              options_for_select([['すべて', '']] + @users.map { |u| [u.nickname, u.id] }, @user_id),
+              {},
+              class: "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" %>
+        </div>
+
+        <!-- ソート -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            ソート順
+          </label>
+          <%= f.select :sort,
+              options_for_select([['最新順', ''], ['古い順', 'oldest']], @sort),
+              {},
+              class: "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" %>
+        </div>
+
+        <!-- ボタン -->
+        <div class="flex gap-3">
+          <%= f.submit '検索', class: "flex-1 px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer" %>
+          <%= link_to 'リセット', posts_path, class: "flex-1 px-4 py-2 bg-gray-200 text-gray-800 font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 cursor-pointer text-center" %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- 検索結果表示 -->
+    <% if @posts.any? %>
+      <div class="space-y-4">
+        <% if @keyword.present? || @user_id.present? %>
+          <p class="text-sm text-gray-600">
+            検索結果: <strong><%= @posts.count %></strong>件
+            <% if @keyword.present? %>
+              (キーワード: <strong><%= @keyword %></strong>)
+            <% end %>
+            <% if @user_id.present? %>
+              (ユーザー: <strong><%= User.find(@user_id).nickname %></strong>)
+            <% end %>
+          </p>
+        <% end %>
+
+        <!-- 投稿一覧 -->
         <% @posts.each do |post| %>
-          <div class="focus:outline-none mb-7 bg-white p-6 shadow rounded">
-            <div class="flex items-center border-b border-gray-200 pb-6">
-              <div class="flex items-start justify-between w-full">
-                <div class="pl-3">
-                  <p class="focus:outline-none text-lg font-medium leading-5 text-gray-800"><%= link_to post.title, post_path(post) %></p>
-                  <p class="focus:outline-none text-sm leading-normal pt-2 text-gray-500">by <%= link_to post.user.nickname, user_path(post.user), class: "hover:text-indigo-600 hover:font-bold" %></p>
-                </div>
+          <div class="bg-white p-6 shadow rounded hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between border-b border-gray-200 pb-4 mb-4">
+              <div class="flex-1">
+                <p class="text-lg font-medium text-gray-800">
+                  <%= link_to post.title, post_path(post), class: "text-indigo-600 hover:text-indigo-800 hover:underline" %>
+                </p>
+                <p class="text-sm text-gray-500 mt-2">
+                  投稿者: <%= link_to post.user.nickname, user_path(post.user), class: "hover:text-indigo-600 hover:font-bold" %>
+                  |
+                  投稿日時: <%= l post.created_at, format: :short %>
+                </p>
               </div>
             </div>
-     
-            <div class="px-2">
-              <p class="focus:outline-none text-sm leading-5 py-4 text-gray-600 line-clamp-3 overflow-hidden"><%= post.content %></p>
+
+            <div class="text-sm text-gray-600 line-clamp-3">
+              <%= truncate(post.content, length: 150) %>
             </div>
           </div>
         <% end %>
       </div>
-    </div>
+    <% else %>
+      <div class="bg-blue-50 border border-blue-200 rounded-md p-6 text-center">
+        <p class="text-gray-600">
+          <% if @keyword.present? || @user_id.present? %>
+            「<%= @keyword %>」に該当する投稿はありません
+          <% else %>
+            投稿がまだありません
+          <% end %>
+        </p>
+      </div>
+    <% end %>
+  </div>
+</div>
