@@ -1,10 +1,14 @@
 FactoryBot.define do
   factory :user do
-    nickname { 'テスト太郎' }
+    nickname { Faker::Japanese::Name.name }
     sequence :email do |n|
       "test#{n}@example.com"
     end
-    password { '111111' }
-    password_confirmation { '111111' }
+    password { 'Password123' }
+    password_confirmation { 'Password123' }
+    
+    trait :with_posts do
+    	nickname { Faker::Name.name }
+    end
   end
 end

@@ -431,3 +431,49 @@ describe 'GET /posts with search' do
     end
   end
 end
+
+describe 'GET /posts with pagination' do
+  let!(:posts) { create_list(:post, 25) }
+
+  context 'ページネーション機能' do
+    it 'デフォルトは1ページ目を表示' do
+      get '/posts'
+      expect(response).to have_http_status(200)
+      expect(assigns(:posts).current_page).to eq(1)
+    end
+
+    it '1ページあたり10件を表示' do
+      get '/posts'
+      expect(assigns(:posts).size).to eq(10)
+    end
+
+    it '2ページ目を表示できる' do
+      get '/posts', params: { page: 2 }
+      expect(assigns(:posts).current_page).to eq(2)
+      expect(assigns(:posts).size).to eq(10)
+    end
+
+    it '3ページ目を表示できる' do
+      get '/posts', params: { page: 3 }
+      expect(assigns(:posts).current_page).to eq(3)
+      expect(assigns(:posts).size).to eq(5)  # 25件なので最終ページは5件
+    end
+
+    it '合計ページ数が正しく計算される' do
+      get '/posts'
+      expect(assigns(:posts).total_pages).to eq(3)
+    end
+
+    it '合計件数が正しく表示される' do
+      get '/posts'
+      expect(assigns(:posts).total_count).to eq(25)
+    end
+
+    it '検索結果でもページネーションが機能' do
+      create(:post, title: 'Rails')
+      get '/posts', params: { keyword: 'Rails', page: 1 }
+      expect(response).to have_http_status(200)
+      expect(assigns(:posts).current_page).to eq(1)
+    end
+  end
+end

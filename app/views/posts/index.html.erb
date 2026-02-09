@@ -1,3 +1,4 @@
+<!-- app/views/posts/index.html.erb -->
 <div class="space-y-6 w-full max-w-2xl">
   <div class="w-full">
     <label class="block text-xl font-bold text-gray-700 mb-6">学習ログ一覧</label>
@@ -48,22 +49,26 @@
       <% end %>
     </div>
 
-    <!-- 検索結果表示 -->
-    <% if @posts.any? %>
-      <div class="space-y-4">
-        <% if @keyword.present? || @user_id.present? %>
-          <p class="text-sm text-gray-600">
-            検索結果: <strong><%= @posts.count %></strong>件
-            <% if @keyword.present? %>
-              (キーワード: <strong><%= @keyword %></strong>)
-            <% end %>
-            <% if @user_id.present? %>
-              (ユーザー: <strong><%= User.find(@user_id).nickname %></strong>)
-            <% end %>
-          </p>
+    <!-- 検索結果表示情報 -->
+    <% if @keyword.present? || @user_id.present? %>
+      <p class="text-sm text-gray-600 mb-4">
+        検索結果: <strong><%= @posts.total_count %></strong>件
+        <% if @keyword.present? %>
+          (キーワード: <strong><%= @keyword %></strong>)
         <% end %>
+        <% if @user_id.present? %>
+          (ユーザー: <strong><%= User.find(@user_id).nickname %></strong>)
+        <% end %>
+      </p>
+    <% else %>
+      <p class="text-md text-gray-600 mb-4">
+        全投稿数： <strong><%= Post.count %></strong>件
+      </p>
+    <% end %>
 
-        <!-- 投稿一覧 -->
+    <!-- 投稿一覧 -->
+    <% if @posts.any? %>
+      <div class="space-y-4 mb-8">
         <% @posts.each do |post| %>
           <div class="bg-white p-6 shadow rounded hover:shadow-lg transition-shadow">
             <div class="flex items-start justify-between border-b border-gray-200 pb-4 mb-4">
@@ -85,6 +90,83 @@
           </div>
         <% end %>
       </div>
+
+      <!-- ページネーション表示 -->
+      <!-- ページネーションボタン -->
+      <div class="flex justify-center items-center gap-2 flex-wrap">
+        <!-- 最初へボタン -->
+        <% if @posts.first_page? %>
+          <span class="px-4 py-2 border border-gray-200 text-gray-300 rounded-lg bg-gray-50 cursor-not-allowed" title="最初のページです">
+            最初
+          </span>
+        <% else %>
+          <%= link_to '最初', 
+              posts_path(keyword: @keyword, user_id: @user_id, sort: @sort, page: 1),
+              class: "px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-colors font-medium" %>
+        <% end %>
+
+        <!-- 前へボタン -->
+        <% if @posts.first_page? %>
+          <span class="px-4 py-2 border border-gray-200 text-gray-300 rounded-lg bg-gray-50 cursor-not-allowed" title="前のページはありません">
+            ← 前
+          </span>
+        <% else %>
+          <%= link_to '← 前', 
+              posts_path(keyword: @keyword, user_id: @user_id, sort: @sort, page: @posts.current_page - 1),
+              class: "px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-colors font-medium" %>
+        <% end %>
+
+        <!-- ページ番号ボタン（最大7ページまで表示） -->
+        <% 
+          start_page = [@posts.current_page - 2, 1].max
+          end_page = [start_page + 6, @posts.total_pages].min
+          
+          if start_page > 1
+        %>
+          <span class="px-2 text-gray-400">...</span>
+        <% end %>
+
+        <% (start_page..end_page).each do |page_num| %>
+          <% if page_num == @posts.current_page %>
+            <span class="px-4 py-2 bg-indigo-600 text-white rounded-lg font-semibold">
+              <%= page_num %>
+            </span>
+          <% else %>
+            <%= link_to page_num,
+                posts_path(keyword: @keyword, user_id: @user_id, sort: @sort, page: page_num),
+                class: "px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors" %>
+          <% end %>
+        <% end %>
+
+        <% 
+          if end_page < @posts.total_pages
+        %>
+          <span class="px-2 text-gray-400">...</span>
+        <% end %>
+
+        <!-- 次へボタン -->
+        <% if @posts.last_page? %>
+          <span class="px-4 py-2 border border-gray-200 text-gray-300 rounded-lg bg-gray-50 cursor-not-allowed" title="次のページはありません">
+            次 →
+          </span>
+        <% else %>
+          <%= link_to '次 →',
+              posts_path(keyword: @keyword, user_id: @user_id, sort: @sort, page: @posts.current_page + 1),
+              class: "px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-colors font-medium" %>
+        <% end %>
+
+        <!-- 最後へボタン -->
+        <% if @posts.last_page? %>
+          <span class="px-4 py-2 border border-gray-200 text-gray-300 rounded-lg bg-gray-50 cursor-not-allowed" title="最後のページです">
+            最後
+          </span>
+        <% else %>
+          <%= link_to '最後', 
+              posts_path(keyword: @keyword, user_id: @user_id, sort: @sort, page: @posts.total_pages),
+              class: "px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-colors font-medium" %>
+        <% end %>
+      </div>
+    </div>
     <% else %>
       <div class="bg-blue-50 border border-blue-200 rounded-md p-6 text-center">
         <p class="text-gray-600">

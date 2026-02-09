@@ -12,7 +12,9 @@ class PostsController < ApplicationController
     # ユーザー一覧を取得（フィルタ用）
     @users = User.all
 
-    @posts = Post.search(keyword: @keyword, user_id: @user_id, sort: @sort).limit(10)
+    @posts = Post.search(keyword: @keyword, user_id: @user_id, sort: @sort)
+    							.page(params[:page])
+    							.per(10)
   end
 
   def show
