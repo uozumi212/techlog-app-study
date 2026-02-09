@@ -456,7 +456,7 @@ describe 'GET /posts with pagination' do
     it '3ページ目を表示できる' do
       get '/posts', params: { page: 3 }
       expect(assigns(:posts).current_page).to eq(3)
-      expect(assigns(:posts).size).to eq(5)  # 25件なので最終ページは5件
+      expect(assigns(:posts).size).to eq(5) # 25件なので最終ページは5件
     end
 
     it '合計ページ数が正しく計算される' do

@@ -6,9 +6,9 @@ FactoryBot.define do
     end
     password { 'Password123' }
     password_confirmation { 'Password123' }
-    
+
     trait :with_posts do
-    	nickname { Faker::Name.name }
+      nickname { Faker::Name.name }
     end
   end
 end

@@ -13,8 +13,8 @@ class PostsController < ApplicationController
     @users = User.all
 
     @posts = Post.search(keyword: @keyword, user_id: @user_id, sort: @sort)
-    							.page(params[:page])
-    							.per(10)
+                 .page(params[:page])
+                 .per(10)
   end
 
   def show
