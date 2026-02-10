@@ -69,3 +69,19 @@ describe Post do
     end
   end
 end
+
+describe 'tag_list' do
+	let(:post) { create(:post) }
+	
+	it 'カンマ区切りでタグ追加' do
+		post.tag_list = 'Ruby, Rails, Web開発'
+		post.save
+		expect(post.tags.pluck(:name)).to eq(['Ruby', 'Rails', 'Web開発'])
+	end
+
+	it 'カンマ区切りでタグ追加' do
+		post.tags << create(:tag, name: 'Ruby')
+		post.tags << create(:tag, name: 'Rails')
+		expect(post.tag_list).to eq('Ruby, Rails')
+	end
+end

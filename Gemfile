@@ -44,6 +44,10 @@ gem 'image_processing', '~> 1.2'
 
 gem 'kaminari'
 
+gem 'devise-i18n'
+
+gem 'devise'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
@@ -67,6 +71,7 @@ group :development, :test do
   gem 'faker-japanese'
   gem 'rails-controller-testing'
   gem 'rspec-rails'
+  gem 'shoulda-matchers', '~> 5.0'
 end
 
 group :development do
@@ -76,8 +81,6 @@ group :development do
   gem 'rubocop-rspec'
   gem 'spring-commands-rspec'
 end
-
-gem 'devise'
 
 group :production do
   gem 'pg'

@@ -8,11 +8,14 @@ class PostsController < ApplicationController
     @keyword = params[:keyword]
     @user_id = params[:user_id]
     @sort = params[:sort]
+    @tag_id = params[:tag_id]
 
     # ユーザー一覧を取得（フィルタ用）
     @users = User.all
+    
+    @tags = Tag.popular.limit(5)
 
-    @posts = Post.search(keyword: @keyword, user_id: @user_id, sort: @sort)
+    @posts = Post.search(keyword: @keyword, user_id: @user_id, tag_id: @tag_id, sort: @sort)
                  .page(params[:page])
                  .per(10)
   end
@@ -23,9 +26,11 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new
+    @tags = Tag.all
   end
 
   def edit
+  	@tags = Tag.all
   end
 
   def create
@@ -65,7 +70,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.expect(post: [:title, :content])
+    params.expect(post: [:title, :content, :tag_list])
   end
 
   def find_post

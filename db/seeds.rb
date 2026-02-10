@@ -13,6 +13,11 @@ users = []
   puts "ユーザー作成: #{user.nickname}"
 end
 
+# タグの作成
+tag_names = ['Ruby', 'Rails', 'RSpec', 'PostgreSQL', 'Docker', 'Git', 'JavaScript', 'React', 'API設計']
+tags = tag_names.map { |name| Tag.find_or_create_by!(name: name) }
+puts "Tags 作成: #{tags.count}"
+
 # 投稿データの作成
 post_titles = [
   'Rails入門 - セットアップから初期構築まで',
@@ -44,12 +49,17 @@ post_contents = [
   'GraphQL を使った API 設計の手法について学習しました。'
 ]
 
+post_count = 0
 users.each_with_index do |user, user_index|
 	5.times do |post_index|
-		post = user.posts.create!(
-			title: post_titles[(user_index * 5 + post_index) % post_titles.length],
-			content: post_contents[(user_index * 5 + post_index) % post_contents.length] + "\n\n詳細"
-		)
+		post = Post.find_or_create_by!(
+			user: user,
+			title: post_titles[(user_index * 5 + post_index) % post_titles.length]
+		) do |p|
+			p.content = post_contents[(user_index * 5 + post_index) % post_contents.length]
+			p.tags = tags.sample(rand(3..5))
+		end
+		post_count += 1
 		puts "投稿作成： #{post.title} (ユーザー: #{user.nickname})"
 	end
 end
@@ -57,3 +67,4 @@ end
 puts "ダミーデータの作成が完了しました！"
 puts "ユーザー数: #{User.count}"
 puts "投稿数: #{Post.count}"
+puts "タグ数：#{Tag.count}"
