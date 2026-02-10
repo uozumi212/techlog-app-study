@@ -12,7 +12,7 @@ class PostsController < ApplicationController
 
     # ユーザー一覧を取得（フィルタ用）
     @users = User.all
-    
+
     @tags = Tag.popular.limit(5)
 
     @posts = Post.search(keyword: @keyword, user_id: @user_id, tag_id: @tag_id, sort: @sort)
@@ -30,7 +30,7 @@ class PostsController < ApplicationController
   end
 
   def edit
-  	@tags = Tag.all
+    @tags = Tag.all
   end
 
   def create

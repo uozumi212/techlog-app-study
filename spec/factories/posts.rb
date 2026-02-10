@@ -21,9 +21,9 @@ FactoryBot.define do
     trait :recent_post do
       created_at { 1.day.ago }
     end
-    
+
     trait :with_tags do
-    	after(:create) { |post| create_list(:tag, 3, posts: [post]) }
+      after(:create) { |post| create_list(:tag, 3, posts: [post]) }
     end
   end
 end

@@ -29,7 +29,7 @@ class Post < ApplicationRecord
 
     # タグフィルタ
     query = query.by_tag(params[:tag_id]) if params[:tag_id].present?
-    
+
     # ソート順の適用
     if params[:sort] == 'oldest'
       query.oldest
@@ -37,12 +37,12 @@ class Post < ApplicationRecord
       query.recent
     end
   end
-  
+
   def tag_list=(names)
-  	self.tags = names.split(',').map { |name| Tag.find_or_create_by(name: name.strip) }
+    self.tags = names.split(',').map { |name| Tag.find_or_create_by(name: name.strip) }
   end
-  
+
   def tag_list
-  	tags.pluck(:name).join(', ')
+    tags.pluck(:name).join(', ')
   end
 end
