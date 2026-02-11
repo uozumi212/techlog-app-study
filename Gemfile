@@ -71,7 +71,7 @@ group :development, :test do
   gem 'faker-japanese'
   gem 'rails-controller-testing'
   gem 'rspec-rails'
-  gem 'shoulda-matchers', '~> 5.0'
+  gem 'shoulda-matchers', '~> 7.0'
 end
 
 group :development do
