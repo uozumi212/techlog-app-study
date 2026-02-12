@@ -13,7 +13,7 @@ RSpec.describe Like, type: :model do
     it 'post_id と user_id の組み合わせが一意である' do
       # 既存レコードを作成
       create(:like, post: post, user: user)
-      
+
       # 同じ組み合わせで新規レコードを作成しようとするとエラー
       duplicate_like = build(:like, post: post, user: user)
       expect(duplicate_like).not_to be_valid
@@ -32,33 +32,33 @@ RSpec.describe Like, type: :model do
       expect { Like.create!(post: post, user: user) }
         .to raise_error(ActiveRecord::RecordInvalid)
     end
-    
+
     it '異なるユーザーは同じ投稿をいいねできる' do
-    	other_user = create(:user)
-     
+      other_user = create(:user)
+
       Like.create!(post: post, user: user)
       expect { Like.create!(post: post, user: other_user) }
         .to change(Like, :count).by(1)
     end
-    
+
     it '同じユーザーは異なる投稿をいいねできる' do
-    	other_post = create(:post)
-     
+      other_post = create(:post)
+
       Like.create!(post: post, user: user)
       expect { Like.create!(post: other_post, user: user) }
-      	.to change(Like, :count).by(1)
+        .to change(Like, :count).by(1)
     end
   end
-  
+
   describe 'like deletion' do
-  	it 'いいねを削除できる' do
-   		like = create(:like, post: post, user: user)
+    it 'いいねを削除できる' do
+      like = create(:like, post: post, user: user)
       expect { like.destroy }
-      	.to change(Like, :count).by(-1)
+        .to change(Like, :count).by(-1)
     end
-   
+
     it 'いいね削除時に投稿は削除されない' do
-    	like = create(:like, post: post, user: user)
+      like = create(:like, post: post, user: user)
       like.destroy
       expect(Post.find(post.id)).to be_present
     end

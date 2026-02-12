@@ -9,6 +9,7 @@ ja:
         too_short: "は%{count}文字以上に設定して下さい。"
         wrong_length: "は%{count}文字に設定して下さい。"
         confirmation: "が内容と一致しません。"
+        taken_for_user: "は1つの投稿に対して1回のみいいねできます"
       full_messages:
         format: "%{attribute}%{message}"
   errors:

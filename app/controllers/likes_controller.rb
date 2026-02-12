@@ -8,10 +8,10 @@ class LikesController < ApplicationController
     if @like.save
       respond_to do |format|
         format.turbo_stream
-        format.html { redirect_to posts_path, notice: 'いいねしました' }
+        format.html { redirect_to posts_path, notice: t('likes.created') }
       end
     else
-      redirect_to @post, alert: 'いいねに失敗しました'
+      redirect_to @post, alert: t(likes.not_found)
     end
   end
 
@@ -21,10 +21,10 @@ class LikesController < ApplicationController
     if @like&.destroy
       respond_to do |format|
         format.turbo_stream
-        format.html { redirect_to posts_path, notice: 'いいねを取り消しました' }
+        format.html { redirect_to posts_path, notice: t('likes.deleted') }
       end
     else
-      redirect_to @post, alert: 'いいね取り消しに失敗しました'
+      redirect_to @post, alert: t(likes.not_found)
     end
   end
 

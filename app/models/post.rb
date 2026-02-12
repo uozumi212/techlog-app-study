@@ -29,12 +29,10 @@ class Post < ApplicationRecord
     query = query.by_tag(params[:tag_id]) if params[:tag_id].present?
 
     if params[:sort] == 'oldest'
-      query = query.oldest
+      query.oldest
     else
-      query = query.recent
+      query.recent
     end
-
-    query
   end
 
   # タグ文字列から Tag オブジェクトを生成
@@ -50,10 +48,9 @@ class Post < ApplicationRecord
   # いいね機能のメソッド
   def liked_by?(user)
     return false if user.blank?
+
     likes.exists?(user_id: user.id)
   end
 
-  def likes_count
-    likes.count
-  end
+  delegate :count, to: :likes, prefix: true
 end

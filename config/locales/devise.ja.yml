@@ -71,3 +71,7 @@ ja:
     deleted: "投稿が削除されました"
     not_found: "投稿が見つかりません"
     not_authorized: "権限がありません"
+  likes:
+    created: "いいねしました"
+    deleted: "いいねを取り消しました"
+    not_found: "いいねに失敗しました"
