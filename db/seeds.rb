@@ -3,12 +3,15 @@ puts "ダミーデータの作成を開始します..."
 # ユーザーデータの作成
 users = []
 5.times do |i|
-  user = User.create!(
-    nickname: "テストユーザー#{i + 1}",
-    email: "user#{i + 1}@example.com",
-    password: "password123",
-    password_confirmation: "password123"
-  )
+	email = "user#{i + 1}@example.com"
+  
+  # find_or_create_by! を使うことで、メールアドレスが既にあればそのユーザーを返し、
+  # なければブロック内の処理（nickname等）を実行して新規作成します。
+  user = User.find_or_create_by!(email: email) do |u|
+    u.nickname = "テストユーザー#{i + 1}"
+    u.password = "password123"
+    u.password_confirmation = "password123"
+  end
   users << user
   puts "ユーザー作成: #{user.nickname}"
 end
