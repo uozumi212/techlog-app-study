@@ -39,6 +39,11 @@
         </p>
       </div>
 
+      <!-- いいね機能 -->
+      <div class="px-2 py-4 border-t border-gray-200">
+        <%= render "posts/like_button", post: @post, user: current_user %>
+      </div>
+
       <!-- タグ表示 -->
       <% if @post.tags.any? %>
         <div class="px-2 py-4 border-t border-gray-200">

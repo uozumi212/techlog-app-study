@@ -2,6 +2,8 @@ class Post < ApplicationRecord
   belongs_to :user
   has_many :post_tags, dependent: :destroy
   has_many :tags, through: :post_tags
+  has_many :likes, dependent: :destroy
+  has_many :liked_by_users, through: :likes, source: :user
 
   validates :title, presence: true, length: { maximum: 100 }
   validates :content, presence: true, length: { maximum: 1000 }
@@ -18,31 +20,40 @@ class Post < ApplicationRecord
   def self.search(params)
     query = self
 
-    # キーワード検索（タイトルまたは内容）
     if params[:keyword].present?
       keyword = params[:keyword]
       query = query.where('title LIKE ? OR content LIKE ?', "%#{keyword}%", "%#{keyword}%")
     end
 
-    # ユーザーフィルタ
     query = query.by_user(params[:user_id]) if params[:user_id].present?
-
-    # タグフィルタ
     query = query.by_tag(params[:tag_id]) if params[:tag_id].present?
 
-    # ソート順の適用
     if params[:sort] == 'oldest'
-      query.oldest
+      query = query.oldest
     else
-      query.recent
+      query = query.recent
     end
+
+    query
   end
 
+  # タグ文字列から Tag オブジェクトを生成
   def tag_list=(names)
     self.tags = names.split(',').map { |name| Tag.find_or_create_by(name: name.strip) }
   end
 
+  # Tag オブジェクトからタグ文字列を生成
   def tag_list
     tags.pluck(:name).join(', ')
+  end
+
+  # いいね機能のメソッド
+  def liked_by?(user)
+    return false if user.blank?
+    likes.exists?(user_id: user.id)
+  end
+
+  def likes_count
+    likes.count
   end
 end

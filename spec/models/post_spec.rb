@@ -85,3 +85,36 @@ describe 'tag_list' do
     expect(post.tag_list).to eq('Ruby, Rails')
   end
 end
+
+describe 'like methods' do
+  let(:user1) { create(:user) }
+  let(:user2) { create(:user) }
+  let(:post) { create(:post) }
+
+  describe '#liked_by?' do
+    it 'ユーザーがいいねしていればtrue' do
+      post.likes.create!(user: user1)
+      expect(post.liked_by?(user1)).to be true
+    end
+
+    it 'ユーザーがいいねしていなければfalse' do
+      expect(post.liked_by?(user1)).to be false
+    end
+
+    it 'userがnilの場合はfalse' do
+      expect(post.liked_by?(nil)).to be false
+    end
+  end
+
+  describe '#likes_count' do
+    it 'いいね数を返す' do
+      post.likes.create!(user: user1)
+      post.likes.create!(user: user2)
+      expect(post.likes_count).to eq(2)
+    end
+
+    it 'いいねがない場合は0を返す' do
+      expect(post.likes_count).to eq(0)
+    end
+  end
+end

@@ -110,6 +110,11 @@
             <div class="text-sm text-gray-600 line-clamp-3">
               <%= truncate(post.content, length: 150) %>
             </div>
+
+            <!-- いいね機能を追加 -->
+            <div class="mt-4 pt-4 border-t border-gray-200">
+              <%= render "posts/like_button", post: post, user: current_user %>
+            </div>
           </div>
         <% end %>
       </div>

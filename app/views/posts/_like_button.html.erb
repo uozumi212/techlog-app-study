@@ -1,0 +1,44 @@
+<!-- いいね機能ボタン -->
+<div class="like-container">
+  <% if user_signed_in? %>
+    <div id="like-button-<%= post.id %>" 
+         data-controller="like"
+         class="inline">
+      
+      <% if post.liked_by?(current_user) %>
+        <!-- いいね済みボタン -->
+        <%= button_to post_like_path(post, Like.find_by(post_id: post.id, user_id: current_user.id)),
+            method: :delete,
+            class: "like-button liked",
+            data: { action: "click->like#animate" },
+            onclick: "return true;",
+            title: "いいねを取り消す" do %>
+          <span class="text-lg">❤️</span>
+        <% end %>
+      <% else %>
+        <!-- いいね前ボタン -->
+        <%= button_to post_likes_path(post),
+            method: :post,
+            class: "like-button",
+            data: { action: "click->like#animate" },
+            onclick: "return true;",
+            title: "いいねする" do %>
+          <span class="text-lg">🤍</span>
+        <% end %>
+      <% end %>
+    </div>
+
+    <!-- いいね数 -->
+    <span class="like-count">
+      <%= post.likes_count %>
+    </span>
+  <% else %>
+    <!-- ログインしていない場合 -->
+    <div class="flex items-center gap-2">
+      <span class="text-lg text-gray-300">🤍</span>
+      <span class="like-count">
+        <%= post.likes_count %>
+      </span>
+    </div>
+  <% end %>
+</div>
