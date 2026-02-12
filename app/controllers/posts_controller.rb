@@ -16,6 +16,7 @@ class PostsController < ApplicationController
     @tags = Tag.popular.limit(5)
 
     @posts = Post.search(keyword: @keyword, user_id: @user_id, tag_id: @tag_id, sort: @sort)
+                 .includes(:user, :likes, :tags)
                  .page(params[:page])
                  .per(10)
   end

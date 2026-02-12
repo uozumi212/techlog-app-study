@@ -1,3 +1,3 @@
-<%= turbo_stream.replace "like-button-#{@post.id}" do %>
+<%= turbo_stream.replace "like-container-#{@post.id}" do %>
   <%= render "posts/like_button", post: @post, user: current_user %>
 <% end %>

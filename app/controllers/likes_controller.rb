@@ -3,28 +3,47 @@ class LikesController < ApplicationController
   before_action :find_post
 
   def create
-    @like = @post.likes.build(user: current_user)
-
-    if @like.save
-      respond_to do |format|
-        format.turbo_stream
-        format.html { redirect_to posts_path, notice: t('likes.created') }
-      end
+    # 既存のいいねがある場合はそれを削除、ない場合は新規作成
+    @like = @post.likes.find_by(user: current_user)
+    
+    if @like
+      # 既存のいいねを削除
+      @like.destroy
     else
-      redirect_to @post, alert: t(likes.not_found)
+      # 新規いいねを作成
+      @like = @post.likes.build(user: current_user)
+      @like.save
+    end
+
+    @post.reload
+
+    respond_to do |format|
+      format.json do
+        render json: {
+          success: true,
+          liked: @post.liked_by?(current_user),
+          likes_count: @post.likes_count
+        }
+      end
+      format.html { head :no_content }
     end
   end
 
   def destroy
     @like = @post.likes.find_by(user: current_user)
+    @like&.destroy
 
-    if @like&.destroy
-      respond_to do |format|
-        format.turbo_stream
-        format.html { redirect_to posts_path, notice: t('likes.deleted') }
+    @post.reload
+
+    respond_to do |format|
+      format.json do
+        render json: {
+          success: true,
+          liked: @post.liked_by?(current_user),
+          likes_count: @post.likes_count
+        }
       end
-    else
-      redirect_to @post, alert: t(likes.not_found)
+      format.html { head :no_content }
     end
   end
 
