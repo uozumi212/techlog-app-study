@@ -4,6 +4,7 @@ class Post < ApplicationRecord
   has_many :tags, through: :post_tags
   has_many :likes, dependent: :destroy
   has_many :liked_by_users, through: :likes, source: :user
+  has_many :comments, dependent: :destroy
 
   validates :title, presence: true, length: { maximum: 100 }
   validates :content, presence: true, length: { maximum: 1000 }

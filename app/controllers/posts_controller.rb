@@ -40,20 +40,20 @@ class PostsController < ApplicationController
 
     if @post.save
       flash[:notice] = t('posts.created')
-      redirect_to posts_path
+      redirect_to posts_path, status: :see_other
     else
-      flash[:alert] = t('posts.create_failed')
-      render :new
+      @tags = Tag.all
+      render :new, status: :unprocessable_entity
     end
   end
 
   def update
     if @post.update(post_params)
       flash[:notice] = t('posts.updated')
-      redirect_to @post
+      redirect_to @post, status: :see_other
     else
-      flash[:alert] = t('posts.update_failed')
-      render :edit
+      @tags = Tag.all
+      render :edit, status: :unprocessable_entity
     end
   end
 

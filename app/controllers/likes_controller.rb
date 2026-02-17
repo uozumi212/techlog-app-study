@@ -1,11 +1,12 @@
 class LikesController < ApplicationController
   before_action :authenticate_user!
   before_action :find_post
+  before_action :check_post_owner
 
   def create
     # 既存のいいねがある場合はそれを削除、ない場合は新規作成
     @like = @post.likes.find_by(user: current_user)
-    
+
     if @like
       # 既存のいいねを削除
       @like.destroy
@@ -51,5 +52,11 @@ class LikesController < ApplicationController
 
   def find_post
     @post = Post.find(params[:post_id])
+  end
+
+  def check_post_owner
+    return unless @post.user_id == current_user.id
+
+    render json: { success: false, message: t('likes.cannot_like_own_post') }
   end
 end

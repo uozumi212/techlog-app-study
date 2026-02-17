@@ -1,0 +1,8 @@
+ja:
+  navbar:
+    brand: "TechLog"
+    posts_index: "ログ一覧"
+    logout: "ログアウト"
+    new_post: "ログ投稿"
+    sign_up: "ユーザー登録"
+    login: "ログイン"

@@ -1,6 +1,6 @@
 <!-- いいね機能ボタン -->
 <div id="like-container-<%= post.id %>" class="like-container">
-  <% if user_signed_in? %>
+  <% if user_signed_in? && post.user_id != current_user.id %>
     <div class="flex items-center gap-2">
       <% is_liked = post.liked_by?(current_user) %>
       <!-- いいねボタン -->

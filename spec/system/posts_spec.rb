@@ -77,7 +77,8 @@ describe 'Post', type: :system do
 
         it 'Postを作成できない' do
           expect { subject }.not_to change(Post, :count)
-          expect(page).to have_content('投稿に失敗しました')
+          expect(page).to have_content('エラーがあります')
+          expect(page).to have_content('タイトルが入力されていません')
         end
 
         it '入力していた内容は維持される' do

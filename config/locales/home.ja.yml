@@ -1,0 +1,10 @@
+ja:
+  home:
+    brand: "TechLog"
+    hero:
+      subtitle: "プログラミング学習の記録を始めましょう。"
+      description: "TechLogは、あなたのプログラミング学習の旅を記録するためのシンプルなアプリケーションです。日々の学習内容を記録し、振り返ることで、着実な成長を実感しましょう。"
+    cta:
+      record: "学習ログを記録する"
+      sign_up: "ユーザー登録"
+      view_logs: "学習ログを見る"

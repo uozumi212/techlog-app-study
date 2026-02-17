@@ -71,3 +71,21 @@ puts "ダミーデータの作成が完了しました！"
 puts "ユーザー数: #{User.count}"
 puts "投稿数: #{Post.count}"
 puts "タグ数：#{Tag.count}"
+
+puts "コメントの作成を開始します"
+
+all_users = User.all.to_a
+all_posts = Post.all.to_a
+
+all_posts.each do |p|
+	rand(1..3).times do
+		commenter = all_users.sample
+		Comment.create!(
+			post: p,
+			user: commenter,
+			content: Faker::Lorem.sentence(word_count: 8)
+		)
+	end
+end
+
+puts "コメント作成が完了しました。コメント数： #{Comment.count}"

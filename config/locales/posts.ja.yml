@@ -1,0 +1,31 @@
+ja:
+  posts:
+    show:
+      title: "学習ログ詳細"
+      author_label: "投稿者:"
+      posted_at_label: "投稿日時:"
+      edit: "編集"
+      delete: "削除"
+      delete_confirm: "本当に削除してもよろしいですか？"
+      tags_label: "タグ:"
+      comments:
+        heading: "コメント"
+        placeholder: "コメントを入力..."
+        submit: "コメントを投稿"
+        login_prompt_suffix: "してコメントを投稿"
+        ago: "前"
+        delete: "削除"
+        delete_confirm: "本当に削除してもよろしいですか？"
+    form:
+      title: "学習ログ投稿"
+      error_name: "エラー"
+      errors_message_suffix: " 件のエラーがあります:"
+      title_label: "タイトル"
+      content_label: "本文"
+      tags_label: "タグ（カンマ区切り）"
+      tags_help: "複数のタグはカンマで区切ってください（例：Ruby, Rails, 初心者向け）"
+      new_hint: "学習したこと、開発したことを記録しましょう。"
+      edit_hint: "学習したこと、開発したことを更新しましょう。"
+      cancel: "キャンセル"
+      create: "ログを記録"
+      update: "更新する"
