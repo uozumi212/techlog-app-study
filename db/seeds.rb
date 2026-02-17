@@ -16,10 +16,19 @@ users = []
   puts "ユーザー作成: #{user.nickname}"
 end
 
-# タグの作成
+# --- タグ作成 ---
+puts "--- タグ作成開始 ---"
 tag_names = ['Ruby', 'Rails', 'RSpec', 'PostgreSQL', 'Docker', 'Git', 'JavaScript', 'React', 'API設計']
-tags = tag_names.map { |name| Tag.find_or_create_by!(name: name) }
-puts "Tags 作成: #{tags.count}"
+tags = []
+tag_names.each do |name|
+  begin
+    tag = Tag.find_or_create_by!(name: name)
+    tags << tag
+  rescue => e
+    puts "エラー: タグ '#{name}' の作成に失敗しました - #{e.message}"
+  end
+end
+puts "--- タグ作成完了"
 
 # 投稿データの作成
 post_titles = [
