@@ -1,22 +1,28 @@
 <!-- いいね機能ボタン -->
-<div id="like-container-<%= post.id %>" class="like-container">
+<div id="like-container-<%= post.id %>" class="like-container" data-controller="like">
   <% if user_signed_in? && post.user_id != current_user.id %>
     <div class="flex items-center gap-2">
       <% is_liked = post.liked_by?(current_user) %>
       <!-- いいねボタン -->
-      <form id="like-form-<%= post.id %>" action="<%= post_likes_path(post) %>" method="post" style="display: inline;">
+      <form id="like-form-<%= post.id %>" 
+            action="<%= post_likes_path(post) %>" 
+            method="post" 
+            style="display: inline;"
+            data-like-target="form"
+            data-action="submit->like#handleSubmit">
         <input type="hidden" name="_method" value="post">
         <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
         <button type="submit" 
                 id="like-btn-<%= post.id %>"
                 class="like-button <%= is_liked ? 'liked' : '' %>"
-                title="<%= is_liked ? 'いいねを取り消す' : 'いいねする' %>">
+                title="<%= is_liked ? 'いいねを取り消す' : 'いいねする' %>"
+                data-like-target="button">
           <span class="text-lg"><%= is_liked ? '❤️' : '🤍' %></span>
         </button>
       </form>
 
       <!-- いいね数 -->
-      <span class="like-count" id="like-count-<%= post.id %>">
+      <span class="like-count" id="like-count-<%= post.id %>" data-like-target="count">
         <%= post.likes_count %>
       </span>
     </div>
@@ -30,68 +36,3 @@
     </div>
   <% end %>
 </div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('like-form-<%= post.id %>');
-    if (form) {
-      form.addEventListener('submit', async function(event) {
-        event.preventDefault();
-        console.log('Like button clicked for post <%= post.id %>');
-
-        const formData = new FormData(form);
-        const url = form.action;
-
-        try {
-          const response = await fetch(url, {
-            method: 'POST',
-            body: formData,
-            headers: {
-              'Accept': 'application/json'
-            }
-          });
-
-          console.log('Response status:', response.status);
-
-          if (!response.ok) {
-            console.error('Error:', response.statusText);
-            return;
-          }
-
-          const data = await response.json();
-          console.log('Response data:', data);
-
-          if (data.success) {
-            // ボタンの更新
-            const button = document.getElementById('like-btn-<%= post.id %>');
-            const icon = button.querySelector('span');
-            const count = document.getElementById('like-count-<%= post.id %>');
-
-            if (data.liked) {
-              button.classList.add('liked');
-              icon.textContent = '❤️';
-              button.title = 'いいねを取り消す';
-            } else {
-              button.classList.remove('liked');
-              icon.textContent = '🤍';
-              button.title = 'いいねする';
-            }
-
-            // いいね数を更新
-            count.textContent = data.likes_count;
-
-            // アニメーション
-            button.classList.add('like-pulse');
-            setTimeout(() => {
-              button.classList.remove('like-pulse');
-            }, 600);
-
-            console.log('Like updated successfully');
-          }
-        } catch (error) {
-          console.error('Error:', error);
-        }
-      });
-    }
-  });
-</script>

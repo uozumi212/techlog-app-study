@@ -1,4 +1,4 @@
-<div class="space-y-6 w-3/4 max-w-lg">
+<div class="space-y-6 w-3/4">
   <label class="block text-xl font-bold text-gray-700"><%= t('posts.show.title') %></label>
 
   <div class="items-center justify-center">
@@ -59,12 +59,11 @@
           </div>
         </div>
       <% end %>
-      <div class="mt-2">
-        <p class="text-lg"><%= t('posts.show.comments.heading') %></p>
-      
+      <div class="mt-1">
         <!-- コメント作成フォーム -->
         <% if user_signed_in? %>
           <% if @post.user_id != current_user.id %>
+            <p class="text-medium"><%= t('posts.show.comments.heading') %></p>
 	          <%= form_with  class: "text-center", model: [@post, Comment.new], local: true do |form| %>
 	            <div class="mt-1">
 	              <%= form.text_area :content, placeholder: t('posts.show.comments.placeholder'), class: "bg-gray-50 w-full pl-1", rows: 3 %>
@@ -81,16 +80,16 @@
           <% @post.comments.each do |comment| %>
             <div class="mt-4 border-t-2 border-gray-400">
 	            <div class="mt-4">
-		            <p class="comment-author"><strong><%= comment.user.nickname %></strong></p>
+		            <p><strong><%= comment.user.nickname %></strong></p>
 		            <p class="my-2"><%= comment.content %></p>
-		            <div class="justify-end flex">
-                          <small class="text-md mr-2 items-center flex"><%= time_ago_in_words(comment.created_at) %><%= t('posts.show.comments.ago') %></small>
-                          <% if user_signed_in? && comment.user == current_user %>
-                            <%= button_to t('posts.show.comments.delete'), post_comment_path(@post, comment),
-                                    method: :delete, 
-                                    data: { turbo_confirm: t('posts.show.comments.delete_confirm') }, 
-                                    class: "text-white bg-red-400 py-2 px-4 rounded-md cursor-pointer" %>
-                          <% end %>
+		            <div class="flex justify-between">
+	               <% if user_signed_in? && comment.user == current_user %>
+	                    <%= button_to t('posts.show.comments.delete'), post_comment_path(@post, comment),
+	                      method: :delete, 
+	                      data: { turbo_confirm: t('posts.show.comments.delete_confirm') }, 
+	                      class: "text-white bg-red-400 py-1.5 px-3 rounded-md cursor-pointer" %>
+	               <% end %>
+										<small class="text-md items-center flex ml-auto mt-2"><%= time_ago_in_words(comment.created_at) %><%= t('posts.show.comments.ago') %></small>
 		            </div>
 	            </div>
             </div>

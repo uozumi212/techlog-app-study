@@ -67,8 +67,6 @@ group :development, :test do
 
   gem 'database_cleaner-active_record'
   gem 'factory_bot_rails'
-  gem 'faker'
-  gem 'faker-japanese'
   gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'shoulda-matchers', '~> 5.0'
@@ -85,3 +83,6 @@ end
 group :production do
   gem 'pg'
 end
+
+gem 'faker'
+gem 'faker-japanese'

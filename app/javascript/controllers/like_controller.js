@@ -5,20 +5,20 @@ export default class extends Controller {
 
 	async handleSubmit(event) {
 		event.preventDefault();
-		console.log("Like button clicked");
+		console.log("Like form submitted");
 
-		// フォームの action と method を取得
 		const form = this.formTarget;
 		const url = form.action;
 		const formData = new FormData(form);
+		const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
 
 		try {
-			// Fetch で POST リクエストを送信
 			const response = await fetch(url, {
 				method: "POST",
 				body: formData,
 				headers: {
 					Accept: "application/json",
+					"X-CSRF-Token": csrfToken,
 				},
 			});
 

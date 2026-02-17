@@ -126,7 +126,7 @@ RSpec.describe 'Posts', type: :request do
         it 'エラーメッセージが表示される' do
           post '/posts', params: { post: { title: '', content: '' } }
           expect(response.body).to include('タイトルが入力されていません')
-          expect(response.body).to include('本文が入力されていません') 
+          expect(response.body).to include('本文が入力されていません')
         end
       end
 
@@ -283,7 +283,7 @@ RSpec.describe 'Posts', type: :request do
           it 'エラーメッセージが表示される' do
             patch "/posts/#{@post.id}", params: { post: { title: '', content: '' } }
             expect(response.body).to include('タイトルが入力されていません')
-            expect(response.body).to include('本文が入力されていません') 
+            expect(response.body).to include('本文が入力されていません')
           end
         end
       end

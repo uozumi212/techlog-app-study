@@ -110,9 +110,15 @@
               <%= truncate(post.content, length: 150) %>
             </div>
 
-            <!-- いいね機能を追加 -->
-            <div class="mt-4 pt-4 border-t border-gray-200">
+            <!-- いいね・コメント情報 -->
+            <div class="mt-4 pt-4 border-t border-gray-200 flex items-center gap-6">
               <%= render "posts/like_button", post: post, user: current_user %>
+              
+              <!-- コメント数表示 -->
+              <div class="flex items-center gap-4">
+                <span class="text-lg">💬</span>
+                <span class="text-gray-600 font-medium"><%= post.comments.count %></span>
+              </div>
             </div>
           </div>
         <% end %>

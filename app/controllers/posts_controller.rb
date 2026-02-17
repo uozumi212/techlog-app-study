@@ -16,7 +16,7 @@ class PostsController < ApplicationController
     @tags = Tag.popular.limit(5)
 
     @posts = Post.search(keyword: @keyword, user_id: @user_id, tag_id: @tag_id, sort: @sort)
-                 .includes(:user, :likes, :tags)
+                 .includes(:user, :likes, :tags, :comments)
                  .page(params[:page])
                  .per(10)
   end
@@ -43,7 +43,7 @@ class PostsController < ApplicationController
       redirect_to posts_path, status: :see_other
     else
       @tags = Tag.all
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -53,7 +53,7 @@ class PostsController < ApplicationController
       redirect_to @post, status: :see_other
     else
       @tags = Tag.all
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

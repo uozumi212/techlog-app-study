@@ -77,15 +77,51 @@ puts "コメントの作成を開始します"
 all_users = User.all.to_a
 all_posts = Post.all.to_a
 
+# 学習ログアプリに適したコメントテンプレート
+comment_templates = [
+  "参考になりました！自分も同じところで躓いていました。",
+  "わかりやすく説明してくれてありがとうございます！",
+  "この学習方法、試してみたいと思います。",
+  "素晴らしい投稿ですね。共有ありがとうございます。",
+  "このトピックについてもっと詳しく知りたいです。良い記事ですね。",
+  "同じように学習中です。励みになります！",
+  "実装例がとても分かりやすいですね。参考にさせていただきます。",
+  "このアプローチは勉強になります。ありがとうございました。",
+  "私も同じエラーに遭遇しました。解決策をありがとうございます。",
+  "テンポよく学習が進められますね。素晴らしい！",
+  "これは知りませんでした。新しい視点をありがとうございます。",
+  "詳しい説明をしていただき、ありがとうございました。",
+  "実務的で非常に参考になります。",
+  "このやり方は効率的ですね。取り入れてみます。",
+  "初心者でも理解しやすいです。良い投稿ですね。",
+  "実装してみたら、うまくいきました。ありがとう！",
+  "このテクニックは便利ですね。今度使ってみます。",
+  "説明が丁寧でいいですね。勉強になります。",
+  "これをベースに自分のプロジェクトで試してみます。",
+  "悩んでいたことがここで解決しました。感謝です！"
+]
+
 all_posts.each do |p|
-	rand(1..3).times do
-		commenter = all_users.sample
-		Comment.create!(
-			post: p,
-			user: commenter,
-			content: Faker::Lorem.sentence(word_count: 8)
-		)
-	end
+  rand(1..4).times do
+    # コメント投稿者が記事の投稿者と異なるようにする
+    commenter = (all_users - [p.user]).sample
+    
+    # 投稿のタグに関連したコメント
+    comment_content = if p.tags.any?
+      tag_names = p.tags.pluck(:name).sample(2).join("・")
+      random_template = comment_templates.sample
+      "#{tag_names}について: #{random_template}"
+    else
+      comment_templates.sample
+    end
+    
+    Comment.create!(
+      post: p,
+      user: commenter,
+      content: comment_content
+    )
+    puts "コメント作成: #{commenter.nickname} → #{p.title.truncate(30)}"
+  end
 end
 
 puts "コメント作成が完了しました。コメント数： #{Comment.count}"

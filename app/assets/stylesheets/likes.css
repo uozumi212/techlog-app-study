@@ -1,67 +1,63 @@
 /* いいね機能のスタイル */
 
 .like-button {
-  position: relative;
-  transition: all 0.2s ease;
-  border-radius: 9999px;
-  padding: 8px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
+	position: relative;
+	transition: all 0.2s ease;
+	border-radius: 9999px;
+	padding: 8px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
 }
 
 /* いいね済みボタンのスタイル */
 .like-button.liked {
-  color: #ef4444; /* 赤色 */
+	color: #ef4444; /* 赤色 */
 }
 
 /* いいね前ボタンのスタイル */
 .like-button:not(.liked) {
-  color: #d1d5db; /* グレー */
+	color: #d1d5db; /* グレー */
 }
 
 /* ホバー時のスタイル */
 .like-button:hover {
-  color: #ef4444;
-  background-color: rgba(239, 68, 68, 0.1);
-  transform: scale(1.1);
+	color: #ef4444;
+	background-color: rgba(239, 68, 68, 0.1);
+	transform: scale(1.1);
 }
 
 /* いいねボタンのパルスアニメーション */
-.like-pulse {
-  animation: heartPulse 0.6s ease-in-out;
+@keyframes like-pulse {
+	0%,
+	100% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.3);
+	}
 }
 
-@keyframes heartPulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.3);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+.like-pulse {
+	animation: like-pulse 0.6s ease-in-out;
 }
 
 /* いいね数の表示 */
 .like-count {
-  font-size: 0.875rem; /* 14px */
-  color: #6b7280;
-  margin-left: 0.5rem;
-  font-weight: 500;
+	font-size: 1rem;
+	color: #6b7280;
+	margin-left: 0.1rem;
+	font-weight: 600;
 }
 
 /* いいね機能全体のコンテナ */
 .like-container {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
 }
