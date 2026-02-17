@@ -28,7 +28,7 @@ tag_names.each do |name|
     puts "エラー: タグ '#{name}' の作成に失敗しました - #{e.message}"
   end
 end
-puts "--- タグ作成完了"
+puts "--- タグ作成完了 ---"
 
 # 投稿データの作成
 post_titles = [
@@ -69,7 +69,12 @@ users.each_with_index do |user, user_index|
 			title: post_titles[(user_index * 5 + post_index) % post_titles.length]
 		) do |p|
 			p.content = post_contents[(user_index * 5 + post_index) % post_contents.length]
-			p.tags = tags.sample(rand(3..5))
+		end
+
+		# 既に投稿が存在する場合でも、タグがなければ割り当てる
+		if post.tags.empty?
+			post.update!(tags: tags.sample(rand(3..5)))
+			puts "タグの割り当て: #{post.title}"
 		end
 		post_count += 1
 		puts "投稿作成： #{post.title} (ユーザー: #{user.nickname})"
