@@ -48,7 +48,6 @@ Techlog Appは、技術者が知識を共有するためのプラットフォー
 
 ### 開発環境での動作確認済み
 - macOS
-- Docker環境
 
 ---
 
@@ -151,34 +150,6 @@ bin/rails db:test:prepare
 
 ---
 
-## 📤 デプロイ方法
-
-### Docker イメージの構築
-```bash
-docker build -t techlog_app .
-```
-
-### ローカルでDocker実行
-```bash
-docker run -d \
-  -p 80:3000 \
-  -e RAILS_MASTER_KEY=<config/master.keyの内容> \
-  -e RAILS_ENV=production \
-  --name techlog_app \
-  techlog_app
-```
-
-### Kamalを使用した本番デプロイ
-```bash
-kamal setup      # 初期セットアップ
-kamal deploy     # デプロイ実行
-kamal logs -f    # ログ確認
-```
-
-設定詳細は `config/deploy.yml` を参照してください。
-
----
-
 ## 📊 データベーススキーマ
 
 ### users テーブル
@@ -198,6 +169,42 @@ kamal logs -f    # ログ確認
 | user_id | bigint | ユーザーID（外部キー） |
 | title | string | 投稿タイトル（100字以内） |
 | content | text | 投稿本文（1000字以内） |
+| created_at | datetime | 作成日時 |
+| updated_at | datetime | 更新日時 |
+
+### likes テーブル
+| カラム | 型 | 説明 |
+|---|---|---|
+| id | bigint | プライマリキー |
+| user_id | bigint | ユーザーID（外部キー） |
+| post_id | bigint | 投稿ID（外部キー） |
+| created_at | datetime | 作成日時 |
+| updated_at | datetime | 更新日時 |
+
+### comments テーブル
+| カラム | 型 | 説明 |
+|---|---|---|
+| id | bigint | プライマリキー |
+| user_id | bigint | ユーザーID（外部キー） |
+| post_id | bigint | 投稿ID（外部キー） |
+| content | text | コメント本文 |
+| created_at | datetime | 作成日時 |
+| updated_at | datetime | 更新日時 |
+
+### tags テーブル
+| カラム | 型 | 説明 |
+|---|---|---|
+| id | bigint | プライマリキー |
+| name | string | タグ名（ユニーク） |
+| created_at | datetime | 作成日時 |
+| updated_at | datetime | 更新日時 |
+
+### post_tags テーブル
+| カラム | 型 | 説明 |
+|---|---|---|
+| id | bigint | プライマリキー |
+| post_id | bigint | 投稿ID（外部キー） |
+| tag_id | bigint | タグID（外部キー） |
 | created_at | datetime | 作成日時 |
 | updated_at | datetime | 更新日時 |
 
