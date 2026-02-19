@@ -246,6 +246,6 @@ bin/bundler-audit check  # 依存gemの脆弱性チェック
 ---
 
 ### アプリURL
-http://35.75.226.123/
+[http://35.75.226.123/](https://techlog-app.xyz/)
 
 **最終更新**: 2026年2月18日
