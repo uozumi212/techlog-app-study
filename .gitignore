@@ -37,9 +37,18 @@
 /app/assets/builds/*
 !/app/assets/builds/.keep
 
+# Terraform実行時に生成される「隠しフォルダ」のみを無視
 **/.terraform/
+.terraform/
+
+# 状態管理ファイル（これらはGitHubに上げない）
 *.tfstate
 *.tfstate.*
-crash.log
-*.tfvars
 .terraform.lock.hcl
+
+# 変数ファイル（秘密情報が含まれるため）
+*.tfvars
+terraform.tfvars
+
+# ログ
+crash.log
