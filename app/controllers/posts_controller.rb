@@ -12,8 +12,9 @@ class PostsController < ApplicationController
 
     # ユーザー一覧を取得（フィルタ用）
     @users = User.all
-
-    @tags = Tag.popular.limit(5)
+    @selected_user = User.find_by(id: @user_id)
+    @filter_tags = Tag.order(:name)
+    @popular_tags = Tag.popular.limit(5)
 
     @posts = Post.search(keyword: @keyword, user_id: @user_id, tag_id: @tag_id, sort: @sort)
                  .includes(:user, :likes, :tags, :comments)
@@ -58,14 +59,8 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    post = Post.find_by(id: params[:id])
-
-    if post.user == current_user
-      post.destroy
-      flash[:notice] = t('posts.deleted')
-    end
-
-    redirect_to posts_path
+    @post.destroy
+    redirect_to posts_path, notice: t('posts.deleted')
   end
 
   private

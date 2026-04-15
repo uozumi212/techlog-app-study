@@ -168,7 +168,7 @@ bin/rails db:test:prepare
 | id | bigint | プライマリキー |
 | user_id | bigint | ユーザーID（外部キー） |
 | title | string | 投稿タイトル（100字以内） |
-| content | text | 投稿本文（1000字以内） |
+| content | string | 投稿本文（1000字以内） |
 | created_at | datetime | 作成日時 |
 | updated_at | datetime | 更新日時 |
 

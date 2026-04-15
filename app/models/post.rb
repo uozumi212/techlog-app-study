@@ -38,7 +38,8 @@ class Post < ApplicationRecord
 
   # タグ文字列から Tag オブジェクトを生成
   def tag_list=(names)
-    self.tags = names.split(',').map { |name| Tag.find_or_create_by(name: name.strip) }
+    tag_names = names.to_s.split(', ').map(&:strip).reject(&:blank?).uniq
+    self.tags = tag_names.map { |name| Tag.find_or_create_by(name: name) }
   end
 
   # Tag オブジェクトからタグ文字列を生成

@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_post
+  before_action :set_comment, only: [:destroy]
 
   def create
     @comment = @post.comments.build(comment_params)
@@ -14,7 +15,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @comment = Comment.find(params[:id])
+    @comment = @post.comments.find(params[:id])
 
     redirect_to root_path, alert: t('comments.not_authorized') and return unless @comment.user == current_user
 
@@ -29,6 +30,10 @@ class CommentsController < ApplicationController
 
   def set_post
     @post = Post.find(params[:post_id])
+  end
+
+  def set_comment
+    @comment = @post.comments.find(params[:id])
   end
 
   def comment_params
