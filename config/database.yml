@@ -1,20 +1,26 @@
-default: &default
-  adapter: postgresql # sqlite3 から変更
+# config/database.yml
+
+# 開発環境 (Local Mac)
+development:
+  adapter: sqlite3
+  database: storage/development.sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+# テスト環境
+test:
+  adapter: sqlite3
+  database: storage/test.sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+# 本番環境 (AWS EC2 + RDS)
+production:
+  adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: <%= ENV['DB_HOST'] || 'localhost' %>
+  host: <%= ENV['DB_HOST'] %>
+  database: <%= ENV['DB_NAME'] %>
   username: <%= ENV['DB_USER'] %>
   password: <%= ENV['DB_PASSWORD'] %>
   port: 5432
-
-development:
-  <<: *default
-  database: techlog_app_development
-
-test:
-  <<: *default
-  database: techlog_app_test
-
-production:
-  <<: *default
-  database: <%= ENV['DB_NAME'] %>

@@ -23,7 +23,9 @@ class Post < ApplicationRecord
 
     if params[:keyword].present?
       keyword = params[:keyword]
-      query = query.where('title LIKE ? OR content LIKE ?', "%#{keyword}%", "%#{keyword}%")
+      query = query.where('title LIKE ? OR posts.content LIKE ?',
+                          "%#{keyword}%",
+                          "%#{keyword}%")
     end
 
     query = query.by_user(params[:user_id]) if params[:user_id].present?
