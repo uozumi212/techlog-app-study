@@ -12,7 +12,7 @@ class PostsController < ApplicationController
 
     # ユーザー一覧を取得（フィルタ用）
     @users = User.all
-    @selected_user = User.find(id: @user_id)
+    @selected_user = User.find_by(id: @user_id)
     @filter_tags = Tag.order(:name)
     @popular_tags = Tag.popular.limit(5)
 
