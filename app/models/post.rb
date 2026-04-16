@@ -10,12 +10,12 @@ class Post < ApplicationRecord
   validates :content, presence: true, length: { maximum: 1000 }
 
   # 検索用スコープ
-  scope :search_by_title, ->(query) { where('title LIKE ?', "%#{query}%") if query.present? }
-  scope :search_by_content, ->(query) { where('content LIKE ?', "%#{query}%") if query.present? }
+  scope :search_by_title, ->(query) { where('posts.title LIKE ?', "%#{query}%") if query.present? }
+  scope :search_by_content, ->(query) { where('posts.content LIKE ?', "%#{query}%") if query.present? }
   scope :by_user, ->(user_id) { where(user_id: user_id) if user_id.present? }
-  scope :by_tag, ->(tag_id) { joins(:tags).where(tags: { id: tag_id }).distinct if tag_id.present? }
-  scope :recent, -> { order(created_at: :desc) }
-  scope :oldest, -> { order(created_at: :asc) }
+  scope :by_tag, ->(tag_id) { joins(:post_tags).where(post_tags: { tag_id: tag_id }) if tag_id.present? }
+  scope :recent, -> { order('posts.created_at DESC') }
+  scope :oldest, -> { order('posts.created_at ASC') }
 
   # 複合検索メソッド
   def self.search(params)
@@ -23,7 +23,7 @@ class Post < ApplicationRecord
 
     if params[:keyword].present?
       keyword = params[:keyword]
-      query = query.where('title LIKE ? OR posts.content LIKE ?',
+      query = query.where('posts.title LIKE ? OR posts.content LIKE ?',
                           "%#{keyword}%",
                           "%#{keyword}%")
     end
