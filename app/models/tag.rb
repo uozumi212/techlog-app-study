@@ -4,6 +4,11 @@ class Tag < ApplicationRecord
 
   validates :name, presence: true, length: { minimum: 1, maximum: 50 }, uniqueness: true
 
-  scope :popular, -> { joins(:post_tags).group('tags.id').order('COUNT(post_tags.id) DESC') }
+  # scope :popular, -> { joins(:post_tags).group('tags.id').order('COUNT(post_tags.id) DESC') }
+  scope :popular, lambda {
+    left_joins(:post_tags).select('tags.*, COUNT(post_tags.id) AS post_count')
+                          .group('tags.id')
+                          .order(Arel.sql('COUNT(post_tags.id) DESC'))
+  }
   scope :recent, -> { order(created_at: :desc) }
 end

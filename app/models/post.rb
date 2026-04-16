@@ -38,13 +38,8 @@ class Post < ApplicationRecord
 
   # タグ文字列から Tag オブジェクトを生成
   def tag_list=(names)
-    tag_names = names.to_s.split(', ').map(&:strip).reject(&:blank?).uniq
+    tag_names = names.to_s.split(',').map(&:strip).reject(&:blank?).uniq
     self.tags = tag_names.map { |name| Tag.find_or_create_by(name: name) }
-  end
-
-  # Tag オブジェクトからタグ文字列を生成
-  def tag_list
-    tags.pluck(:name).join(', ')
   end
 
   # いいね機能のメソッド
