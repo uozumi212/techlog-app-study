@@ -2,6 +2,8 @@ require_relative "boot"
 
 require "rails/all"
 
+require "dotenv" if Rails.env.production? || Rails.env.development?
+
 Bundler.require(*Rails.groups)
 
 if Rails.env.production? || Rails.env.development?
