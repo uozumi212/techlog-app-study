@@ -21,9 +21,68 @@
     <%= f.text_field :title, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 py-1 px-2 block w-full sm:text-sm placeholder-gray-400 border border-gray-300 rounded-md", placeholder: "Railsチュートリアル1章を完了" %>
   </div>
 
-  <div class="mt-1">
-    <label class="text-gray-700 text-lg"><%= t('posts.form.content_label') %></label>
-    <%= f.text_area :content, rows: 5, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 py-1 px-2 block w-full sm:text-sm placeholder-gray-400 border border-gray-300 rounded-md", placeholder: "環境構築を無事に終えることができた！" %>
+  <div
+    data-controller="markdown-preview"
+    data-markdown-preview-url-value="<%= preview_posts_path %>"
+  >
+    <div class="mt-1">
+      <label class="text-gray-700 text-lg">入力形式</label>
+      <div class="mt-2 flex gap-4">
+        <label class="flex items-center gap-2">
+          <input
+            type="radio"
+            name="editor_mode"
+            value="plain"
+            checked
+            data-markdown-preview-target="modePlain"
+            data-action="change->markdown-preview#toggleMode"
+          >
+          <span>通常</span>
+        </label>
+
+        <label class="flex items-center gap-2">
+          <input
+            type="radio"
+            name="editor_mode"
+            value="markdown"
+            data-markdown-preview-target="modeMarkdown"
+            data-action="change->markdown-preview#toggleMode"
+          >
+          <span>Markdown</span>
+        </label>
+      </div>
+    </div>
+
+    <div
+      data-markdown-preview-target="layout"
+      class="grid grid-cols-1 gap-6 mt-4"
+    >
+      <div>
+        <label class="text-gray-700 text-lg"><%= t('posts.form.content_label') %></label>
+        <%= f.text_area :content,
+            rows: 12,
+            placeholder: "環境構築を無事に終えることができた！",
+            data: {
+              markdown_preview_target: "input",
+              action: "input->markdown-preview#render"
+            },
+            class: "min-h-[320px] shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 py-2 px-2 block w-full border border-gray-300 rounded-md" %>
+
+        <p class="mt-2 text-sm text-gray-500" data-markdown-preview-target="help">
+          通常入力ではそのまま表示されます。Markdownを選ぶと # 見出し や - 箇条書き が使えます。
+        </p>
+      </div>
+
+      <div data-markdown-preview-target="previewWrapper" class="hidden">
+        <label class="text-gray-700 text-lg">プレビュー</label>
+        <div
+          data-markdown-preview-target="output"
+          class="markdown-body mt-1 border border-gray-300 rounded-md min-h-[320px] bg-gray-50"
+        >
+          <p class="text-gray-400">ここにプレビューが表示されます</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="mt-1">

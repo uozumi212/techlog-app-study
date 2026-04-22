@@ -1,10 +1,54 @@
-/*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
- */
+.markdown-body h1 {
+    padding: 5px;
+    font-size: 1.875rem;
+    font-weight: 700;
+}
+
+.markdown-body h2 {
+    padding: 5px;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.markdown-body p {
+    padding: 5px;
+    line-height: 1.8;
+}
+
+.markdown-body ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin: 0.5rem 0;
+}
+
+.markdown-body ol {
+    list-style: decimal;
+    padding-left: 1.5rem;
+    margin: 1rem 0;
+}
+
+.markdown-body li {
+    margin: 0.25rem 0;
+}
+
+.markdown-body .markdown-code {
+    margin: 1rem 0;
+}
+
+.markdown-body pre.highlight {
+    background: #0f172a;
+    color: #e5e7eb;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    line-height: 1.6;
+    font-size: 0.9rem;
+}
+
+.markdown-body :not(pre) > code {
+    background: #e5e7eb;
+    color: #111827;
+    padding: 0.15rem 0.35rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+}

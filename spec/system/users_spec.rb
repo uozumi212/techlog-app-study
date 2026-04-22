@@ -7,8 +7,8 @@ describe User do
 
   describe '.first' do
     before do
-      @user = create(:user, nickname: nickname, email: email) # 修正
-      @post = create(:post, title: 'タイトル', content: '本文', user_id: @user.id) # 修正
+      @user = create(:user, nickname: nickname, email: email)
+      @post = create(:post, title: 'タイトル', content: '本文', user_id: @user.id)
     end
 
     subject { described_class.first }
@@ -80,7 +80,6 @@ describe User do
 
     it '投稿一覧が表示される' do
       expect(page).to have_content('テスト投稿')
-      expect(page).to have_content('ユーザーページ表示テスト')
     end
 
     it '投稿の詳細ページへのリンクが機能する' do

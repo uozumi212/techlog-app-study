@@ -63,6 +63,10 @@ class PostsController < ApplicationController
     redirect_to posts_path, notice: t('posts.deleted')
   end
 
+  def preview
+    render html: view_context.markdown(params[:content])
+  end
+
   private
 
   def post_params
